@@ -1,0 +1,323 @@
+[gd_scene load_steps=13 format=3 uid="uid://i1cy1bet24kt"]
+
+[ext_resource type="Script" path="res://mats/main/main.gd" id="1_86ghk"]
+
+[sub_resource type="FontVariation" id="FontVariation_dquy4"]
+spacing_top = -2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vik3a"]
+bg_color = Color(0.2, 0, 0.141176, 0.6)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0)
+
+[sub_resource type="SystemFont" id="SystemFont_vpxeu"]
+
+[sub_resource type="FontVariation" id="FontVariation_l7jf1"]
+base_font = SubResource("SystemFont_vpxeu")
+spacing_top = -6
+spacing_bottom = -6
+
+[sub_resource type="Theme" id="Theme_l51wj"]
+default_font = SubResource("FontVariation_l7jf1")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pn8tv"]
+bg_color = Color(0.286275, 0, 0.627451, 1)
+corner_radius_top_left = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_filrj"]
+bg_color = Color(0.698039, 0.698039, 0.698039, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_llvcu"]
+bg_color = Color(0.564706, 0.564706, 0.564706, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsajv"]
+bg_color = Color(0.698039, 0.698039, 0.698039, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0xrj"]
+bg_color = Color(0.305882, 0.305882, 0.305882, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Theme" id="Theme_cwt0n"]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_focus_color = Color(0.160784, 0.160784, 0.160784, 1)
+Button/colors/font_hover_color = Color(0.129412, 0.129412, 0.129412, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_filrj")
+Button/styles/hover = SubResource("StyleBoxFlat_llvcu")
+Button/styles/normal = SubResource("StyleBoxFlat_bsajv")
+Button/styles/pressed = SubResource("StyleBoxFlat_f0xrj")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_86ghk")
+
+[node name="cont" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="item_bar" type="HBoxContainer" parent="cont"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="txt" type="RichTextLabel" parent="cont/item_bar"]
+custom_minimum_size = Vector2(238, 2.08165e-12)
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/normal_font = SubResource("FontVariation_dquy4")
+theme_override_font_sizes/normal_font_size = 24
+text = "Eternity good games
+"
+scroll_active = false
+
+[node name="TabBar" type="TabBar" parent="cont/item_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+mouse_filter = 1
+tab_count = 2
+tab_0/title = "ITEMS"
+tab_1/title = "ORDERS"
+
+[node name="win_btns" type="HBoxContainer" parent="cont/item_bar"]
+visible = false
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="mn" type="Button" parent="cont/item_bar/win_btns"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "_
+"
+
+[node name="flwn" type="Button" parent="cont/item_bar/win_btns"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "[=]"
+
+[node name="close" type="Button" parent="cont/item_bar/win_btns"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "X"
+
+[node name="ctrl" type="Control" parent="cont"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="cont/ctrl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vik3a")
+
+[node name="games" type="Control" parent="cont/ctrl/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="popup" type="Panel" parent="cont/ctrl/Panel/games"]
+custom_minimum_size = Vector2(188, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+theme = SubResource("Theme_l51wj")
+theme_override_styles/panel = SubResource("StyleBoxFlat_pn8tv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 9.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Label" parent="cont/ctrl/Panel/games/popup/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+text = "FILTERS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="item" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/VBoxContainer"]
+layout_mode = 2
+
+[node name="price" type="Label" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item"]
+layout_mode = 2
+text = "ITEM_NAME"
+
+[node name="game_name" type="LineEdit" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item"]
+layout_mode = 2
+
+[node name="item2" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/VBoxContainer"]
+layout_mode = 2
+
+[node name="price" type="Label" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item2"]
+layout_mode = 2
+text = "PRICE"
+
+[node name="price_v" type="SpinBox" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item2"]
+layout_mode = 2
+allow_greater = true
+
+[node name="sc_i" type="ScrollContainer" parent="cont/ctrl/Panel/games"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = 9.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+follow_focus = true
+
+[node name="item_cont" type="HFlowContainer" parent="cont/ctrl/Panel/games/sc_i"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="order" type="Control" parent="cont/ctrl/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="orders_lbl" type="Label" parent="cont/ctrl/Panel/order"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 9.0
+offset_right = 79.0
+offset_bottom = 32.0
+text = "ORDERS"
+
+[node name="order_types" type="OptionButton" parent="cont/ctrl/Panel/order"]
+layout_mode = 1
+offset_left = 104.0
+offset_top = 5.0
+offset_right = 232.0
+offset_bottom = 36.0
+focus_mode = 0
+item_count = 3
+selected = 0
+popup/item_0/text = "ALL"
+popup/item_0/id = 2
+popup/item_1/text = "SUCCES"
+popup/item_1/id = 0
+popup/item_2/text = "WAIT"
+popup/item_2/id = 1
+
+[node name="items_lbl" type="Label" parent="cont/ctrl/Panel/order"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 9.0
+offset_right = 303.0
+offset_bottom = 32.0
+text = "ITEMS"
+
+[node name="hbc" type="HBoxContainer" parent="cont/ctrl/Panel/order"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 41.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="order_panel" type="Panel" parent="cont/ctrl/Panel/order/hbc"]
+custom_minimum_size = Vector2(224, 2.08165e-12)
+layout_mode = 2
+
+[node name="sc_o" type="ScrollContainer" parent="cont/ctrl/Panel/order/hbc/order_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="order_list" type="VBoxContainer" parent="cont/ctrl/Panel/order/hbc/order_panel/sc_o"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_cwt0n")
+
+[node name="add_order" type="Button" parent="cont/ctrl/Panel/order/hbc/order_panel/sc_o/order_list"]
+layout_mode = 2
+focus_mode = 0
+text = "ADD_ORDER"
+
+[node name="item_panel" type="Panel" parent="cont/ctrl/Panel/order/hbc"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="tab_changed" from="cont/item_bar/TabBar" to="." method="_on_tab_bar_tab_changed"]
+[connection signal="button_down" from="cont/item_bar/win_btns/mn" to="." method="_on_mn_button_down"]
+[connection signal="button_down" from="cont/item_bar/win_btns/flwn" to="." method="_on_flwn_button_down"]
+[connection signal="button_down" from="cont/item_bar/win_btns/close" to="." method="_on_close_button_down"]
+[connection signal="value_changed" from="cont/ctrl/Panel/games/popup/VBoxContainer/item2/price_v" to="." method="_on_price_spin_value_changed"]
+[connection signal="item_selected" from="cont/ctrl/Panel/order/order_types" to="." method="_on_order_types_item_selected"]
+[connection signal="button_down" from="cont/ctrl/Panel/order/hbc/order_panel/sc_o/order_list/add_order" to="." method="_on_add_order_button"]

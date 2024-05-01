@@ -1,0 +1,24 @@
+﻿,en,ru
+ORDERS,orders,заказы
+ADD_ORDER,add order, добавить заказ
+ITEMS,games,игры
+FILTERS,filters,фильтры
+ADD_ITEM,add game, добавить игру
+PRICE,price,цена
+COUNT,count,количество
+RELEASE_DATE,release date,дата выхода
+AUTHORS,authors,авторы
+CARD_NUMBER,card number,номер карты
+ORDER_STATUS,order status,статус заказа
+DATE,date,дата
+ORDER_SUM,order sum,сумма заказа
+PAYMENT,pay,оплатить
+WAIT,waiting...,ожидает…
+SUCCES,succes,оплачено
+QUESTION_PAYMENT,payment text,текст оплаты
+CANCEL,cancel,отмена
+ACCEPT,accept,принять
+MM,MM,ММ
+YYYY,YYYY,ГГГГ
+UNCORRECT_CARD,incorrect card number,неверный номер карты
+ADD_TO_ORDER,add to order,добавить в заказ

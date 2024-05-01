@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdfmxic5jxlam"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_safx4"]
+font_size = 22
+
+[node name="message" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -124.0
+offset_right = 192.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 376.0
+offset_bottom = 120.0
+text = "QUESTION_PAYMENT"
+
+[node name="card_data" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 128.0
+offset_right = 376.0
+offset_bottom = 200.0
+theme_override_constants/separation = 8
+
+[node name="card" type="HBoxContainer" parent="Panel/card_data"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="cn" type="LineEdit" parent="Panel/card_data/card"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "CARD_NUMBER"
+max_length = 18
+
+[node name="cvc" type="LineEdit" parent="Panel/card_data/card"]
+layout_mode = 2
+placeholder_text = "CVC"
+max_length = 3
+secret = true
+
+[node name="info" type="HFlowContainer" parent="Panel/card_data"]
+layout_mode = 2
+
+[node name="date" type="HBoxContainer" parent="Panel/card_data/info"]
+layout_mode = 2
+
+[node name="m" type="LineEdit" parent="Panel/card_data/info/date"]
+layout_mode = 2
+placeholder_text = "MM"
+max_length = 2
+secret = true
+
+[node name="Label" type="Label" parent="Panel/card_data/info/date"]
+layout_mode = 2
+text = "/"
+
+[node name="y" type="LineEdit" parent="Panel/card_data/info/date"]
+layout_mode = 2
+placeholder_text = "YYYY"
+max_length = 4
+secret = true
+
+[node name="money" type="LineEdit" parent="Panel/card_data/info"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "999999999999999999999"
+
+[node name="Label" type="Label" parent="Panel/card_data/info"]
+layout_mode = 2
+text = "₽"
+label_settings = SubResource("LabelSettings_safx4")
+
+[node name="btns" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 209.0
+offset_right = 376.0
+offset_bottom = 240.0
+
+[node name="c" type="Button" parent="Panel/btns"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "CANCEL"
+
+[node name="a" type="Button" parent="Panel/btns"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "ACCEPT"

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://jekei40hhfsc"]
+
+[node name="OrderButton" type="HBoxContainer"]
+
+[node name="order" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "adf2342424234"
+
+[node name="del" type="Button" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+text = "x"

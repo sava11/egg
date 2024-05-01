@@ -1,0 +1,101 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5x3tiifvms3h"]
+
+[ext_resource type="Texture2D" uid="uid://ctc1jyrxih16c" path="res://icon.svg" id="1_anslw"]
+[ext_resource type="Script" path="res://mats/game_card/item.gd" id="1_qhuih"]
+
+[node name="item" type="Panel"]
+custom_minimum_size = Vector2(256, 192)
+offset_right = 256.0
+offset_bottom = 192.0
+script = ExtResource("1_qhuih")
+
+[node name="cont" type="VFlowContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="id_game" type="VBoxContainer" parent="cont"]
+layout_mode = 2
+
+[node name="id" type="HBoxContainer" parent="cont/id_game"]
+layout_mode = 2
+
+[node name="id_mark" type="Label" parent="cont/id_game/id"]
+layout_mode = 2
+text = "ID:
+"
+
+[node name="id" type="Label" parent="cont/id_game/id"]
+layout_mode = 2
+text = "12321444"
+
+[node name="name" type="Label" parent="cont/id_game"]
+layout_mode = 2
+text = "game_name________"
+
+[node name="img" type="TextureRect" parent="cont"]
+custom_minimum_size = Vector2(240, 96)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_anslw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="pac" type="HFlowContainer" parent="cont"]
+layout_mode = 2
+
+[node name="price" type="HBoxContainer" parent="cont/pac"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="prise_txt" type="Label" parent="cont/pac/price"]
+layout_mode = 2
+text = "PRICE"
+
+[node name="prise" type="Label" parent="cont/pac/price"]
+layout_mode = 2
+text = "165"
+
+[node name="Label" type="Label" parent="cont/pac/price"]
+layout_mode = 2
+text = "₽"
+
+[node name="count" type="HBoxContainer" parent="cont/pac"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="count_lbl" type="Label" parent="cont/pac/count"]
+layout_mode = 2
+text = "COUNT"
+
+[node name="count" type="Label" parent="cont/pac/count"]
+layout_mode = 2
+
+[node name="open" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+flat = true
+
+[node name="remove" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "X"
+
+[connection signal="button_down" from="open" to="." method="_on_open_button_down"]

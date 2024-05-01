@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cmldd0nlur1vp"]
+
+[node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(176, 128)
+
+[node name="img" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -40.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -32.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "ADD_NEW_ITEM"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
