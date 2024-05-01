@@ -12,6 +12,7 @@ func _ready():
 	check_tabbar(0)
 	_get_items()
 	_get_orders()
+	cur_opend_order=orders.get_child(0).name
 func _get_orders():
 	for e in orders.get_children():
 		if e.get_index()!=0:
@@ -50,12 +51,13 @@ func _get_orders():
 			"release_date":i[5][0],
 			"count":str(i[6]),
 			"count_in_order":str(sqlc.querry("select in_order from orders where order_id="+str(e[0])+" and game_id="+str(i[0])+";")[0][0]),
-			"text":i[7]
-			
+			"text":i[7],
+			"order_status":e[2]
 			})
 			itm.order_item=true
 			itm.get_node("remove").visible=list.get_node("order/status").text==tr("WAIT")
 			itm.get_node("remove").button_down.connect(Callable(self,"delete_item").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
+			itm.get_node("cont/pac/count/count").value_changed.connect(Callable(self,"count_changed").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
 			var author_list=[]
 			for author in sqlc.querry("select author from authors where id in 
 			(select author_id from authors_connections where game_id="+str(e[0])+") order by id;"):
@@ -71,7 +73,11 @@ func _get_orders():
 		list.name=b.name
 		list.hide()
 		_on_order_types_item_selected($cont/ctrl/Panel/order/order_types.selected)
+	if cur_opend_order!="":
+		show_items(cur_opend_order)
+var cur_opend_order:=""
 func show_items(ord_id:String):
+	cur_opend_order=ord_id
 	for e in order_items_cont.get_children():e.hide()
 	order_items_cont.get_node(ord_id).show()
 func _get_items():
@@ -87,7 +93,8 @@ func _get_items():
 			"price":str(e[4]),
 			"release_date":e[5][0],
 			"count":str(e[6]),
-			"text":e[7]
+			"text":e[7],
+			"order_status":false
 			})
 		var author_list=[]
 		for author in sqlc.querry("select author from authors where id in 
@@ -112,7 +119,7 @@ func get_net_image(s:TextureRect,img:String,filename:String,type:String="jpg"):
 	http_request.start_download()
 
 func end(s:TextureRect,type:String,a:NodePath):
-	var f=FileAccess.open(chache+s.get_parent().get_node("name").text+"."+type,FileAccess.READ)
+	var f=FileAccess.open(chache+s.get_parent().get_node("id_game/name").text+"."+type,FileAccess.READ)
 	var b=f.get_buffer(f.get_length())
 	f.close()
 	var img = Image.new()
@@ -180,6 +187,12 @@ func delete_item(order_id,item_id,count):
 		_get_orders()
 		_get_items()
 
+
+func count_changed(value:int,order_id:String,item_id:String,check_value):
+	if value!=int(check_value):
+		sqlc.querry("call set_order_item_count("+order_id+", "+item_id+","+str(value)+");")
+		_get_orders()
+		_get_items()
 
 func order_type(index:int):
 	return $cont/ctrl/Panel/order/order_types.get_item_text(index)

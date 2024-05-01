@@ -16,6 +16,7 @@ func _ready():
 	$panel/Panel/op.add_item("ADD_TO_ORDER")
 	for e in get_tree().current_scene.get_uncompleted_orders():
 		$panel/Panel/op.add_item(e,int(e.split("_")[1]))
+	$panel/Panel/count.max_value=int(data.count)
 func _process(delta):
 	$panel/Panel/insert.disabled=$panel/Panel/op.selected==0
 func _on_close_button_down():

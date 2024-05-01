@@ -4,9 +4,9 @@
 [ext_resource type="Script" path="res://mats/game_card/item.gd" id="1_qhuih"]
 
 [node name="item" type="Panel"]
-custom_minimum_size = Vector2(256, 192)
+custom_minimum_size = Vector2(256, 232)
 offset_right = 256.0
-offset_bottom = 192.0
+offset_bottom = 232.0
 script = ExtResource("1_qhuih")
 
 [node name="cont" type="VFlowContainer" parent="."]
@@ -15,7 +15,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
+offset_top = 8.0
 offset_right = -8.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -46,7 +48,7 @@ texture = ExtResource("1_anslw")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="pac" type="HFlowContainer" parent="cont"]
+[node name="pac" type="VBoxContainer" parent="cont"]
 layout_mode = 2
 
 [node name="price" type="HBoxContainer" parent="cont/pac"]
@@ -55,6 +57,7 @@ size_flags_horizontal = 3
 
 [node name="prise_txt" type="Label" parent="cont/pac/price"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "PRICE"
 
 [node name="prise" type="Label" parent="cont/pac/price"]
@@ -68,20 +71,23 @@ text = "₽"
 [node name="count" type="HBoxContainer" parent="cont/pac"]
 layout_mode = 2
 size_flags_horizontal = 3
-alignment = 2
 
 [node name="count_lbl" type="Label" parent="cont/pac/count"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "COUNT"
 
-[node name="count" type="Label" parent="cont/pac/count"]
+[node name="count" type="SpinBox" parent="cont/pac/count"]
 layout_mode = 2
+value = 1.0
+alignment = 2
 
 [node name="open" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
@@ -96,6 +102,8 @@ anchor_right = 1.0
 offset_left = -32.0
 offset_bottom = 32.0
 grow_horizontal = 0
+focus_mode = 0
 text = "X"
 
+[connection signal="value_changed" from="cont/pac/count/count" to="." method="_on_count_value_changed"]
 [connection signal="button_down" from="open" to="." method="_on_open_button_down"]

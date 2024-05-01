@@ -210,9 +210,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -11.5
-offset_right = 40.0
-offset_bottom = 11.5
+offset_top = -12.5
+offset_right = 46.0
+offset_bottom = 10.5
 grow_horizontal = 0
 grow_vertical = 2
 text = "13455"
@@ -278,7 +278,6 @@ grow_horizontal = 0
 grow_vertical = 2
 min_value = 1.0
 value = 1.0
-allow_greater = true
 
 [node name="Label" type="Label" parent="panel/Panel"]
 layout_mode = 1
