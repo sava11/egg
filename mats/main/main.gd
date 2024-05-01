@@ -12,7 +12,8 @@ func _ready():
 	check_tabbar(0)
 	_get_items()
 	_get_orders()
-	cur_opend_order=orders.get_child(0).name
+	if orders.get_child_count()>0:
+		cur_opend_order=orders.get_child(1).name
 func _get_orders():
 	for e in orders.get_children():
 		if e.get_index()!=0:
@@ -47,11 +48,11 @@ func _get_orders():
 			itm.data.merge({
 			"id":str(i[0]),
 			"name":i[1],
-			"price":str(i[4]),
-			"release_date":i[5][0],
-			"count":str(i[6]),
+			"price":str(i[3]),
+			"release_date":i[4][0],
+			"count":str(i[5]),
 			"count_in_order":str(sqlc.querry("select in_order from orders where order_id="+str(e[0])+" and game_id="+str(i[0])+";")[0][0]),
-			"text":i[7],
+			"text":i[6],
 			"order_status":e[2]
 			})
 			itm.order_item=true
@@ -64,10 +65,10 @@ func _get_orders():
 				author_list.append(Array(author)[0])
 			itm.data.merge({"authors":author_list})
 			if i[2]!="":
-				if FileAccess.file_exists(chache+i[1]+"."+i[3]):
-					itm.get_node("cont/img").texture=load(chache+i[1]+"."+i[3])
+				if FileAccess.file_exists(chache+i[1]+"."+get_file_by_name(i[1])):
+					itm.get_node("cont/img").texture=load(chache+i[1]+"."+get_file_by_name(i[1]))
 				else:
-					get_net_image(itm.get_node("cont/img"),i[2],i[1],i[3])
+					get_net_image(itm.get_node("cont/img"),i[2],i[1])
 			list.get_node("sc_i/list").add_child(itm)
 		order_items_cont.add_child(list)
 		list.name=b.name
@@ -85,15 +86,17 @@ func _get_items():
 		e.queue_free()
 	var data:Array=sqlc.querry("SELECT * FROM games;")
 	var i=0
+	
 	for e in data:
 		var itm=preload("res://mats/game_card/panel.tscn").instantiate()
+		#print(e)
 		itm.data.merge({
 			"id":str(e[0]),
 			"name":e[1],
-			"price":str(e[4]),
-			"release_date":e[5][0],
-			"count":str(e[6]),
-			"text":e[7],
+			"price":str(e[3]),
+			"release_date":e[4][0],
+			"count":str(e[5]),
+			"text":e[6],
 			"order_status":false
 			})
 		var author_list=[]
@@ -102,34 +105,40 @@ func _get_items():
 			author_list.append(Array(author)[0])
 		itm.data.merge({"authors":author_list})
 		if e[2]!="":
-			if FileAccess.file_exists(chache+e[1]+"."+e[3]):
-				itm.get_node("cont/img").texture=load(chache+e[1]+"."+e[3])
+			if FileAccess.file_exists(chache+e[1]+"."+get_file_by_name(e[1])):
+				itm.get_node("cont/img").texture=load(chache+e[1]+"."+get_file_by_name(e[1]))
 			else:
-				get_net_image(itm.get_node("cont/img"),e[2],e[1],e[3])
+				get_net_image(itm.get_node("cont/img"),e[2],e[1])
 		items.add_child(itm)
 
-func get_net_image(s:TextureRect,img:String,filename:String,type:String="jpg"):
+func get_net_image(s:TextureRect,img:String,filename:String):
 	var http_request = FileDownloader.new()
 	http_request.name=str(randi())
 	add_child(http_request)
-	http_request.connect("downloads_finished",Callable(self,"end").bind(s,type,http_request.get_path()))
+	http_request.connect("downloads_finished",Callable(self,"end").bind(s,http_request.get_path()))
 	http_request.file_urls=[img]
-	http_request.custom_names={0:filename+"."+type}
+	http_request.custom_names={0:filename}
 	http_request.save_path=chache
 	http_request.start_download()
 
-func end(s:TextureRect,type:String,a:NodePath):
+func end(s:TextureRect,a:NodePath):
+	var type=get_file_by_name(s.get_parent().get_node("id_game/name").text)
 	var f=FileAccess.open(chache+s.get_parent().get_node("id_game/name").text+"."+type,FileAccess.READ)
 	var b=f.get_buffer(f.get_length())
 	f.close()
 	var img = Image.new()
-	img.load_jpg_from_buffer(b)
+	img.call("load_"+type+"_from_buffer",b)
 	var r = ImageTexture.new()
 	r.set_image(img)
-	#print(chache+s.get_parent().get_node("name").text+"."+type)
 	s.texture=r
 	get_node(a).queue_free()
 
+func get_file_by_name(word:String):
+	var type=""
+	for e in DirAccess.get_files_at(chache):
+		if e.contains(word):
+			type=e.split(".")[1]
+	return type
 
 
 func _on_close_button_down():

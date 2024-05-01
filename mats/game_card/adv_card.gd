@@ -18,7 +18,8 @@ func _ready():
 		$panel/Panel/op.add_item(e,int(e.split("_")[1]))
 	$panel/Panel/count.max_value=int(data.count)
 func _process(delta):
-	$panel/Panel/insert.disabled=$panel/Panel/op.selected==0
+	$panel/Panel/insert.disabled=$panel/Panel/op.selected==0 or int(data.count)-$panel/Panel/count.value<0
+	#print(int(data.count)-$panel/Panel/count.value)
 func _on_close_button_down():
 	queue_free()
 
@@ -26,5 +27,9 @@ func _on_insert_button_down():
 	if get_tree().current_scene.has_order(str($panel/Panel/op.get_item_id($panel/Panel/op.selected))):
 		sqlc.querry("call add_item_in_order("+str($panel/Panel/op.get_item_id($panel/Panel/op.selected))+","+str(data.id)+","+str($panel/Panel/count.value)+");")
 		$panel/Panel/op.selected=0
+		var v=int(data.count)-$panel/Panel/count.value
+		$panel/Panel/count.max_value=v
+		data.count=str(v)
+		$panel/count_lbl/count.text=data.count
 		get_tree().current_scene._get_orders()
 		get_tree().current_scene._get_items()

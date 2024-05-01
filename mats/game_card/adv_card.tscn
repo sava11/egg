@@ -199,7 +199,7 @@ text = "165"
 layout_mode = 0
 offset_left = 320.0
 offset_top = 137.0
-offset_right = 392.0
+offset_right = 424.0
 offset_bottom = 160.0
 text = "COUNT"
 
@@ -278,6 +278,7 @@ grow_horizontal = 0
 grow_vertical = 2
 min_value = 1.0
 value = 1.0
+update_on_text_changed = true
 
 [node name="Label" type="Label" parent="panel/Panel"]
 layout_mode = 1

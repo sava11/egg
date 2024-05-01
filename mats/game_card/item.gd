@@ -15,11 +15,8 @@ func _ready():
 		$cont/pac/count/count.editable=false
 func _on_open_button_down():
 	var adv_c=preload("res://mats/game_card/adv_card.tscn").instantiate()
-	
 	adv_c.data=data
-	
 	get_tree().current_scene.add_child(adv_c)
-
 
 func _on_count_value_changed(value):
 	$cont/pac/count/count.max_value=int(data.count)+value
