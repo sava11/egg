@@ -1,0 +1,16 @@
+SELECT * FROM games;
+SELECT * FROM orders;
+SELECT * FROM orders_data;
+SELECT @id :=add_order();
+call add_item_in_order(@id, 2, 6);
+SELECT * FROM orders;
+SELECT * FROM orders_data;
+call remove_order_item(@id, 2, 3);
+SELECT * FROM orders;
+SELECT * FROM orders_data;
+call set_order_item_count(@id, 2, 2);
+SELECT * FROM orders;
+SELECT * FROM orders_data;
+call remove_order(@id);
+SELECT * FROM orders;
+SELECT * FROM orders_data;
