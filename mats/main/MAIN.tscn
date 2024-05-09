@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://i1cy1bet24kt"]
+[gd_scene load_steps=18 format=3 uid="uid://i1cy1bet24kt"]
 
 [ext_resource type="Script" path="res://mats/main/main.gd" id="1_86ghk"]
 
@@ -27,6 +27,72 @@ default_font = SubResource("FontVariation_l7jf1")
 bg_color = Color(0.286275, 0, 0.627451, 1)
 corner_radius_top_left = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7c3ka"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0627451, 0.321569, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di610"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0627451, 0.321569, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_welr4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0627451, 0.321569, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xt1bf"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0.172549, 0.682353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_w06rd"]
+Button/styles/focus = SubResource("StyleBoxFlat_7c3ka")
+Button/styles/hover = SubResource("StyleBoxFlat_di610")
+Button/styles/normal = SubResource("StyleBoxFlat_welr4")
+Button/styles/pressed = SubResource("StyleBoxFlat_xt1bf")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_filrj"]
 bg_color = Color(0.698039, 0.698039, 0.698039, 0)
@@ -168,48 +234,89 @@ custom_minimum_size = Vector2(188, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
+offset_right = 192.0
 grow_vertical = 2
 theme = SubResource("Theme_l51wj")
 theme_override_styles/panel = SubResource("StyleBoxFlat_pn8tv")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup"]
+[node name="filters" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 9.0
+offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Label" parent="cont/ctrl/Panel/games/popup/VBoxContainer"]
+[node name="Button" type="Label" parent="cont/ctrl/Panel/games/popup/filters"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "FILTERS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="item" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/VBoxContainer"]
+[node name="item" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/filters"]
 layout_mode = 2
 
-[node name="price" type="Label" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item"]
+[node name="price" type="Label" parent="cont/ctrl/Panel/games/popup/filters/item"]
 layout_mode = 2
 text = "ITEM_NAME"
 
-[node name="game_name" type="LineEdit" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item"]
+[node name="game_name" type="LineEdit" parent="cont/ctrl/Panel/games/popup/filters/item"]
 layout_mode = 2
 
-[node name="item2" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/VBoxContainer"]
+[node name="item2" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/filters"]
 layout_mode = 2
 
-[node name="price" type="Label" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item2"]
+[node name="price_lbl" type="Label" parent="cont/ctrl/Panel/games/popup/filters/item2"]
 layout_mode = 2
 text = "PRICE"
 
-[node name="price_v" type="SpinBox" parent="cont/ctrl/Panel/games/popup/VBoxContainer/item2"]
+[node name="price_cont" type="HBoxContainer" parent="cont/ctrl/Panel/games/popup/filters/item2"]
 layout_mode = 2
+
+[node name="sort_type" type="OptionButton" parent="cont/ctrl/Panel/games/popup/filters/item2/price_cont"]
+layout_mode = 2
+size_flags_horizontal = 0
+item_count = 3
+selected = 1
+popup/item_0/text = "<="
+popup/item_0/id = 1
+popup/item_1/text = ">="
+popup/item_1/id = 0
+popup/item_2/text = "="
+popup/item_2/id = 2
+
+[node name="price_v" type="SpinBox" parent="cont/ctrl/Panel/games/popup/filters/item2/price_cont"]
+layout_mode = 2
+size_flags_horizontal = 3
 allow_greater = true
+
+[node name="tags_button" type="Button" parent="cont/ctrl/Panel/games/popup/filters"]
+layout_mode = 2
+focus_mode = 0
+text = "TAGS"
+
+[node name="tags" type="VBoxContainer" parent="cont/ctrl/Panel/games/popup/filters"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_w06rd")
+
+[node name="search" type="LineEdit" parent="cont/ctrl/Panel/games/popup/filters/tags"]
+layout_mode = 2
+placeholder_text = "FIND_TAG"
+
+[node name="sc" type="ScrollContainer" parent="cont/ctrl/Panel/games/popup/filters/tags"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="tags" type="HFlowContainer" parent="cont/ctrl/Panel/games/popup/filters/tags/sc"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="sc_i" type="ScrollContainer" parent="cont/ctrl/Panel/games"]
 clip_contents = false
@@ -318,6 +425,10 @@ size_flags_horizontal = 3
 [connection signal="button_down" from="cont/item_bar/win_btns/mn" to="." method="_on_mn_button_down"]
 [connection signal="button_down" from="cont/item_bar/win_btns/flwn" to="." method="_on_flwn_button_down"]
 [connection signal="button_down" from="cont/item_bar/win_btns/close" to="." method="_on_close_button_down"]
-[connection signal="value_changed" from="cont/ctrl/Panel/games/popup/VBoxContainer/item2/price_v" to="." method="_on_price_spin_value_changed"]
+[connection signal="text_changed" from="cont/ctrl/Panel/games/popup/filters/item/game_name" to="." method="_on_filter_game_name_text_changed"]
+[connection signal="item_selected" from="cont/ctrl/Panel/games/popup/filters/item2/price_cont/sort_type" to="." method="_on_sort_type_item_selected"]
+[connection signal="value_changed" from="cont/ctrl/Panel/games/popup/filters/item2/price_cont/price_v" to="." method="_on_price_spin_value_changed"]
+[connection signal="button_down" from="cont/ctrl/Panel/games/popup/filters/tags_button" to="." method="_on_show_tags_button_down"]
+[connection signal="text_changed" from="cont/ctrl/Panel/games/popup/filters/tags/search" to="." method="_on_tag_search_text_changed"]
 [connection signal="item_selected" from="cont/ctrl/Panel/order/order_types" to="." method="_on_order_types_item_selected"]
 [connection signal="button_down" from="cont/ctrl/Panel/order/hbc/order_panel/sc_o/order_list/add_order" to="." method="_on_add_order_button"]

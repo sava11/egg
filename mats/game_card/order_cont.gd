@@ -19,22 +19,35 @@ func check_pay():
 	var ye=m.get_node("Panel/card_data/info/date/y").text
 	var money=m.get_node("Panel/card_data/info/money").text
 	if money=="":
-		money=m.get_node("Panel/card_data/info/money").placeholder
+		money=m.get_node("Panel/card_data/info/money").placeholder_text
 	var correct=true
 	if !(txt.is_valid_int() and len(txt)>=8 and len(txt)%2==0):
-		m.get_node("Panel/card_data/card/cn").text="UNCORRECT_CARD"
+		m.get_node("Panel/card_data/card/cn").text=tr("UNCORRECT_CARD")
 		correct=false
 	if !(cvc.is_valid_int() and len(cvc)==3):
-		m.get_node("Panel/card_data/card/cvc").text="err"
+		m.get_node("Panel/card_data/card/cvc").text=""
 		correct=false
 	if !(mo.is_valid_int() and len(mo)==2):
-		m.get_node("Panel/card_data/date/m").text="er"
+		m.get_node("Panel/card_data/info/date/m").text="er"
 		correct=false
+	else:
+		var month=int(mo)
+		if month>12 or month<1:
+			m.get_node("Panel/card_data/info/date/m").text="er"
+			correct=false
+		
 	if !(ye.is_valid_int() and len(ye)==4):
-		m.get_node("Panel/card_data/date/y").text="err"
+		m.get_node("Panel/card_data/info/date/y").text="err"
 		correct=false
+	else:
+		var temp=int(ye)
+		var year = int(Time.get_datetime_string_from_system(true,true).split(" ")[0].split("-")[0])
+		print(year," ",temp)
+		if year<temp or temp<0:
+			m.get_node("Panel/card_data/info/date/y").text="er"
+			correct=false
 	if !(money.is_valid_float() and float(money)-float($order_sum/num.text)>=0):
-		m.get_node("Panel/card_data/info/money").text="isnt exists "+$order_sum/num.text
+		m.get_node("Panel/card_data/info/money").text="isnt exists "+str(float($order_sum/num.text)-float(money))
 		correct=false
 	if correct:_edit()
 func _edit():

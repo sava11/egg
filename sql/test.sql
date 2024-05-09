@@ -35,6 +35,19 @@ call remove_order_item(3,4,1);
 SELECT * FROM games;
 call remove_order_item(3,4,2);
 call remove_order_item(3,4,3);
+/*SELECT * FROM games;
+SELECT * FROM orders;
+SELECT * FROM orders_data;
+select * from tags;
+select * from tags_connections;
+delete from orders where game_id = 2;
+delete from games where id = 2;
+*/
 SELECT * FROM games;
 SELECT * FROM orders;
 SELECT * FROM orders_data;
+select * from tags;
+select * from tags_connections;
+
+#tags
+select * from tags where id in (select tag_id from tags_connections tc where tc.game_id=1);

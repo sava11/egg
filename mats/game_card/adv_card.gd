@@ -17,6 +17,12 @@ func _ready():
 	for e in get_tree().current_scene.get_uncompleted_orders():
 		$panel/Panel/op.add_item(e,int(e.split("_")[1]))
 	$panel/Panel/count.max_value=int(data.count)
+	if data.has("tags"):
+		for e in data.tags:
+			
+			var tag=Label.new()
+			tag.text=e+"|"
+			$panel/texts/tags.add_child(tag)
 func _process(delta):
 	$panel/Panel/insert.disabled=$panel/Panel/op.selected==0 or int(data.count)-$panel/Panel/count.value<0
 	#print(int(data.count)-$panel/Panel/count.value)

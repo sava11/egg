@@ -8,6 +8,14 @@ create table game_store.authors(
 	primary key(id)
 );ALTER TABLE game_store.authors AUTO_INCREMENT=0;
 
+drop table if exists game_store.tags;
+create table  game_store.tags(
+	id int unsigned NOT NULL auto_increment,
+	name varchar(256) not null,
+	primary key(id)
+);ALTER TABLE game_store.tags AUTO_INCREMENT=0;
+
+
 drop table if exists game_store.games;
 create table  game_store.games(
 	id int unsigned NOT NULL auto_increment,
@@ -18,8 +26,21 @@ create table  game_store.games(
 	release_date Date not null,
 	in_storage int not null,
 	short_desc text,
+	tag_list int unsigned,
 	primary key(id)
 );ALTER TABLE game_store.games AUTO_INCREMENT=0;
+
+drop table if exists game_store.tags_connections;
+create table game_store.tags_connections(
+	game_id int unsigned NOT NULL,
+	tag_id int unsigned NOT null,
+	FOREIGN KEY (game_id)
+	REFERENCES game_store.games(id)
+	ON DELETE CASCADE,
+	FOREIGN KEY (tag_id)
+	REFERENCES game_store.tags(id)
+	ON DELETE CASCADE
+);
 
 drop table if exists game_store.authors_connections;
 create table game_store.authors_connections(
@@ -27,6 +48,9 @@ create table game_store.authors_connections(
 	author_id int unsigned NOT null,
 	FOREIGN KEY (game_id)
 	REFERENCES game_store.games(id)
+	ON DELETE CASCADE,
+	FOREIGN KEY (author_id)
+	REFERENCES game_store.authors(id)
 	ON DELETE CASCADE
 );
 
@@ -47,6 +71,8 @@ create table if not exists game_store.orders(
 	order_id int unsigned,
 	game_id int unsigned,
 	in_order int unsigned not null,
+	FOREIGN KEY (game_id)
+	REFERENCES game_store.games(id),
 	FOREIGN KEY (order_id)
 	REFERENCES orders_data(id)
 	ON DELETE CASCADE

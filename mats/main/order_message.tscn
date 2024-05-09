@@ -1,4 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdfmxic5jxlam"]
+[gd_scene load_steps=3 format=3 uid="uid://cdfmxic5jxlam"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28g5q"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.34902, 0.34902, 0.34902, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_safx4"]
 font_size = 22
@@ -24,6 +40,7 @@ offset_right = 192.0
 offset_bottom = 124.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_28g5q")
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
@@ -50,7 +67,7 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "CARD_NUMBER"
-max_length = 18
+max_length = 20
 
 [node name="cvc" type="LineEdit" parent="Panel/card_data/card"]
 layout_mode = 2
@@ -68,7 +85,6 @@ layout_mode = 2
 layout_mode = 2
 placeholder_text = "MM"
 max_length = 2
-secret = true
 
 [node name="Label" type="Label" parent="Panel/card_data/info/date"]
 layout_mode = 2
@@ -78,7 +94,6 @@ text = "/"
 layout_mode = 2
 placeholder_text = "YYYY"
 max_length = 4
-secret = true
 
 [node name="money" type="LineEdit" parent="Panel/card_data/info"]
 layout_mode = 2

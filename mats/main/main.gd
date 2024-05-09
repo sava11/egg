@@ -1,7 +1,8 @@
 extends Control
 @onready var chache="temp/"
-@onready var items=			  $cont/ctrl/Panel/games/sc_i/item_cont
-@onready var orders=		  $cont/ctrl/Panel/order/hbc/order_panel/sc_o/order_list
+@onready var tags_cont=		$cont/ctrl/Panel/games/popup/filters/tags/sc/tags
+@onready var items=			$cont/ctrl/Panel/games/sc_i/item_cont
+@onready var orders=		$cont/ctrl/Panel/order/hbc/order_panel/sc_o/order_list
 @onready var order_items_cont=$cont/ctrl/Panel/order/hbc/item_panel
 @export_range(0.001,9999999) var update_timer:float=60
 
@@ -12,7 +13,7 @@ func _ready():
 	check_tabbar(0)
 	_get_items()
 	_get_orders()
-	if orders.get_child_count()>0:
+	if orders.get_child_count()>1:
 		cur_opend_order=orders.get_child(1).name
 func _get_orders():
 	for e in orders.get_children():
@@ -53,6 +54,7 @@ func _get_orders():
 			"count":str(i[5]),
 			"count_in_order":str(sqlc.querry("select in_order from orders where order_id="+str(e[0])+" and game_id="+str(i[0])+";")[0][0]),
 			"text":i[6],
+			"tags":get_tags(i[0]),
 			"order_status":e[2]
 			})
 			itm.order_item=true
@@ -97,6 +99,7 @@ func _get_items():
 			"release_date":e[4][0],
 			"count":str(e[5]),
 			"text":e[6],
+			"tags":get_tags(e[0]),
 			"order_status":false
 			})
 		var author_list=[]
@@ -140,6 +143,27 @@ func get_file_by_name(word:String):
 			type=e.split(".")[1]
 	return type
 
+func get_tags(game_id:int):
+	var exit_list=[]
+	for item in sqlc.querry("select name from tags where id in (select tag_id from tags_connections tc where tc.game_id="+str(game_id)+");"):
+		if !tags_cont.get_children().any(Callable(func(x):return x.text==item[0])) or tags_cont.get_child_count()==0:
+			var tag=Button.new()
+			tag.text=item[0]
+			tag.toggle_mode=true
+			tag.focus_mode=Control.FOCUS_NONE
+			tag.toggled.connect(
+				Callable(
+					func(type):
+						if type:
+							tags_cont.move_child(tag,0)
+							filter_data.tags.append(tag.text)
+						else:
+							filter_data.tags.remove_at(filter_data.tags.find(tag.text))
+						filter() )
+			)
+			tags_cont.add_child(tag)
+		exit_list.append(item[0])
+	return exit_list
 
 func _on_close_button_down():
 	get_tree().quit(0)
@@ -223,5 +247,53 @@ func get_uncompleted_orders():
 			and order_items_cont.get_node(str(e.name)).get_node("order/status").text==tr("WAIT")):
 				list.append(e.name)
 	return list
+
+var filter_data={
+	"name":"",
+	"price_sort":1,
+	"price":0,
+	"tags":[]
+}
+func filter():
+	for e in items.get_children():
+		if (
+			(e.data.name.contains(filter_data.name) or 
+			str(e.data.id).contains(filter_data.name) or filter_data.name=="") and
+			price_sort_by_type_(filter_data.price_sort, float(e.data.price),filter_data.price) and
+			(e.data.tags.any(Callable(func(x):
+				return filter_data.tags.any(Callable(func(y):
+					return x==y)))) or filter_data.tags.is_empty())
+		):
+			e.show()
+		else:
+			e.hide()
 func _on_price_spin_value_changed(value):
-	$cont/ctrl/Panel/games/popup/VBoxContainer/price_cont/price.value=value
+	filter_data.price=value
+	filter()
+
+
+func _on_filter_game_name_text_changed(new_text):
+	filter_data.name=new_text
+	filter()
+
+
+func _on_sort_type_item_selected(index):
+	filter_data.price_sort=index
+	filter()
+func price_sort_by_type_(id:int,item1:int,item2:int):
+	if id==0: return item1<=item2
+	if id==1: return item1>=item2
+	if id==2: return item1==item2
+	return true
+
+
+func _on_tag_search_text_changed(new_text):
+	for e in tags_cont.get_children():
+		if new_text!="":
+			e.visible=e.text.contains(new_text)
+		else:
+			e.show()
+
+
+func _on_show_tags_button_down():
+	$cont/ctrl/Panel/games/popup/filters/tags.visible=!$cont/ctrl/Panel/games/popup/filters/tags.visible
