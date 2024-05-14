@@ -26,7 +26,6 @@ create table  game_store.games(
 	release_date Date not null,
 	in_storage int not null,
 	short_desc text,
-	tag_list int unsigned,
 	primary key(id)
 );ALTER TABLE game_store.games AUTO_INCREMENT=0;
 

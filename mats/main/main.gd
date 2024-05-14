@@ -1,6 +1,8 @@
 extends Control
 @onready var chache="temp/"
+@onready var editable_items=$cont/ctrl/Panel/game_adding/sc_i/item_cont
 @onready var tags_cont=		$cont/ctrl/Panel/games/popup/filters/tags/sc/tags
+@onready var auths_cont=		$cont/ctrl/Panel/games/popup/filters/authors/sc/cont
 @onready var items=			$cont/ctrl/Panel/games/sc_i/item_cont
 @onready var orders=		$cont/ctrl/Panel/order/hbc/order_panel/sc_o/order_list
 @onready var order_items_cont=$cont/ctrl/Panel/order/hbc/item_panel
@@ -13,6 +15,7 @@ func _ready():
 	check_tabbar(0)
 	_get_items()
 	_get_orders()
+	_get_editable_items()
 	if orders.get_child_count()>1:
 		cur_opend_order=orders.get_child(1).name
 func _get_orders():
@@ -55,17 +58,15 @@ func _get_orders():
 			"count_in_order":str(sqlc.querry("select in_order from orders where order_id="+str(e[0])+" and game_id="+str(i[0])+";")[0][0]),
 			"text":i[6],
 			"tags":get_tags(i[0]),
-			"order_status":e[2]
+			"order_status":e[2],
+			"authors":get_authors(e[0])
 			})
+			itm.adv_card_path="res://mats/game_card/adv_card.tscn"
 			itm.order_item=true
 			itm.get_node("remove").visible=list.get_node("order/status").text==tr("WAIT")
 			itm.get_node("remove").button_down.connect(Callable(self,"delete_item").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
 			itm.get_node("cont/pac/count/count").value_changed.connect(Callable(self,"count_changed").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
-			var author_list=[]
-			for author in sqlc.querry("select author from authors where id in 
-			(select author_id from authors_connections where game_id="+str(e[0])+") order by id;"):
-				author_list.append(Array(author)[0])
-			itm.data.merge({"authors":author_list})
+			
 			if i[2]!="":
 				if FileAccess.file_exists(chache+i[1]+"."+get_file_by_name(i[1])):
 					itm.get_node("cont/img").texture=load(chache+i[1]+"."+get_file_by_name(i[1]))
@@ -100,19 +101,45 @@ func _get_items():
 			"count":str(e[5]),
 			"text":e[6],
 			"tags":get_tags(e[0]),
-			"order_status":false
+			"order_status":false,
+			"authors":get_authors(e[0])
 			})
-		var author_list=[]
-		for author in sqlc.querry("select author from authors where id in 
-		(select author_id from authors_connections where game_id="+str(e[0])+") order by id;"):
-			author_list.append(Array(author)[0])
-		itm.data.merge({"authors":author_list})
 		if e[2]!="":
 			if FileAccess.file_exists(chache+e[1]+"."+get_file_by_name(e[1])):
 				itm.get_node("cont/img").texture=load(chache+e[1]+"."+get_file_by_name(e[1]))
 			else:
 				get_net_image(itm.get_node("cont/img"),e[2],e[1])
+		itm.adv_card_path="res://mats/game_card/adv_card.tscn"
 		items.add_child(itm)
+
+func _get_editable_items():
+	for e in editable_items.get_children():
+		if e.text=="":
+			e.queue_free()
+	var data:Array=sqlc.querry("SELECT * FROM games;")
+	var i=0
+	
+	for e in data:
+		var itm=preload("res://mats/game_card/panel.tscn").instantiate()
+		#print(e)
+		itm.data.merge({
+			"id":str(e[0]),
+			"name":e[1],
+			"price":str(e[3]),
+			"release_date":e[4][0],
+			"count":str(e[5]),
+			"text":e[6],
+			"tags":get_tags(e[0]),
+			"order_status":false,
+			"authors":get_authors(e[0])
+			})
+		if e[2]!="":
+			if FileAccess.file_exists(chache+e[1]+"."+get_file_by_name(e[1])):
+				itm.get_node("cont/img").texture=load(chache+e[1]+"."+get_file_by_name(e[1]))
+			else:
+				get_net_image(itm.get_node("cont/img"),e[2],e[1])
+		itm.adv_card_path="res://mats/game_card/edit_adv_card.tscn"
+		editable_items.add_child(itm)
 
 func get_net_image(s:TextureRect,img:String,filename:String):
 	var http_request = FileDownloader.new()
@@ -164,7 +191,39 @@ func get_tags(game_id:int):
 			tags_cont.add_child(tag)
 		exit_list.append(item[0])
 	return exit_list
-
+func get_authors(game_id:int):
+	var author_list=[]
+	for author in sqlc.querry("select author from authors where id in 
+	(select author_id from authors_connections where game_id="+str(game_id)+") order by id;"):
+		var item=Array(author)[0]
+		if !auths_cont.get_children().any(Callable(func(x):return x.text==item)) or auths_cont.get_child_count()==0:
+			var tag=Button.new()
+			tag.text=item
+			tag.toggle_mode=true
+			tag.focus_mode=Control.FOCUS_NONE
+			tag.toggled.connect(
+				Callable(
+					func(type):
+						if type:
+							auths_cont.move_child(tag,0)
+							filter_data.authors.append(tag.text)
+						else:
+							filter_data.authors.remove_at(filter_data.authors.find(tag.text))
+						filter() )
+			)
+			auths_cont.add_child(tag)
+		author_list.append(item)
+	return author_list
+func get_authors_list():
+	var l=[]
+	for e in auths_cont.get_children():
+		l.append(e.text)
+	return l
+func get_tags_list():
+	var l=[]
+	for e in tags_cont.get_children():
+		l.append(e.text)
+	return l
 func _on_close_button_down():
 	get_tree().quit(0)
 func _on_flwn_button_down():
@@ -190,15 +249,18 @@ func _on_gui_input(event):
 				DisplayServer.window_set_position(DisplayServer.mouse_get_position()+tmp_pos)
 
 func check_tabbar(tab):
-	for e in $cont/ctrl/Panel.get_children():e.hide()
-	if tab==0: $cont/ctrl/Panel/games.show()
-	if tab==1:$cont/ctrl/Panel/order.show()
+	for e in $cont/ctrl/Panel.get_children():
+		if e.get_index()==tab:
+			e.show()
+		else:e.hide()
 func _on_tab_bar_tab_changed(tab):
 	check_tabbar(tab)
 var temp:float=0
 func _process(delta):
 	if temp>=update_timer:
+		_get_orders()
 		_get_items()
+		_get_editable_items()
 		temp=0
 
 func _on_add_order_button():
@@ -210,6 +272,7 @@ func delete_order(id:int):
 		sqlc.querry("call remove_order("+str(id)+");")
 		_get_orders()
 		_get_items()
+		_get_editable_items()
 
 func has_order(order:String):
 	return order_items_cont.has_node("order_"+order)
@@ -219,6 +282,7 @@ func delete_item(order_id,item_id,count):
 		sqlc.querry("call remove_order_item("+order_id+", "+item_id+","+str(count)+");")
 		_get_orders()
 		_get_items()
+		_get_editable_items()
 
 
 func count_changed(value:int,order_id:String,item_id:String,check_value):
@@ -226,6 +290,7 @@ func count_changed(value:int,order_id:String,item_id:String,check_value):
 		sqlc.querry("call set_order_item_count("+order_id+", "+item_id+","+str(value)+");")
 		_get_orders()
 		_get_items()
+		_get_editable_items()
 
 func order_type(index:int):
 	return $cont/ctrl/Panel/order/order_types.get_item_text(index)
@@ -252,7 +317,8 @@ var filter_data={
 	"name":"",
 	"price_sort":1,
 	"price":0,
-	"tags":[]
+	"tags":[],
+	"authors":[]
 }
 func filter():
 	for e in items.get_children():
@@ -262,7 +328,10 @@ func filter():
 			price_sort_by_type_(filter_data.price_sort, float(e.data.price),filter_data.price) and
 			(e.data.tags.any(Callable(func(x):
 				return filter_data.tags.any(Callable(func(y):
-					return x==y)))) or filter_data.tags.is_empty())
+					return x==y)))) or filter_data.tags.is_empty()) and
+		(e.data.authors.any(Callable(func(x):
+				return filter_data.authors.any(Callable(func(y):
+					return x==y)))) or filter_data.authors.is_empty())
 		):
 			e.show()
 		else:
@@ -297,3 +366,19 @@ func _on_tag_search_text_changed(new_text):
 
 func _on_show_tags_button_down():
 	$cont/ctrl/Panel/games/popup/filters/tags.visible=!$cont/ctrl/Panel/games/popup/filters/tags.visible
+
+
+func _on_add_game_button_down():
+	pass # Replace with function body.
+
+
+func _on_authors_button_button_down():
+	$cont/ctrl/Panel/games/popup/filters/authors.visible=!$cont/ctrl/Panel/games/popup/filters/authors.visible
+
+
+func _on_author_search_text_changed(new_text):
+	for e in auths_cont.get_children():
+		if new_text!="":
+			e.visible=e.text.contains(new_text)
+		else:
+			e.show()

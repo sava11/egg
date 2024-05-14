@@ -1,0 +1,369 @@
+[gd_scene load_steps=12 format=3 uid="uid://bpfkudsou30me"]
+
+[ext_resource type="Texture2D" uid="uid://ctc1jyrxih16c" path="res://icon.svg" id="1_1q8um"]
+[ext_resource type="Script" path="res://mats/game_card/edit_adv_card.gd" id="1_quc6s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dns4x"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ifpaj"]
+bg_color = Color(0.376471, 0.376471, 0.376471, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m38fp"]
+bg_color = Color(0.262745, 0.262745, 0.262745, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y680j"]
+bg_color = Color(0.376471, 0.376471, 0.376471, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_sgowv"]
+Button/styles/hover = SubResource("StyleBoxFlat_dns4x")
+Button/styles/normal = SubResource("StyleBoxFlat_ifpaj")
+Button/styles/pressed = SubResource("StyleBoxFlat_m38fp")
+Panel/styles/panel = SubResource("StyleBoxFlat_y680j")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3il3i"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.211765, 0.211765, 0.211765, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aytfe"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.211765, 0.211765, 0.211765, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_ocomk"]
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = SubResource("StyleBoxFlat_3il3i")
+Button/styles/pressed = SubResource("StyleBoxFlat_aytfe")
+
+[sub_resource type="Theme" id="Theme_adqra"]
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = SubResource("StyleBoxFlat_3il3i")
+Button/styles/pressed = SubResource("StyleBoxFlat_aytfe")
+
+[node name="advanced card" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_right = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_sgowv")
+script = ExtResource("1_quc6s")
+
+[node name="panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -304.0
+offset_top = -204.0
+offset_right = 168.0
+offset_bottom = 204.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="img" type="TextureRect" parent="panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 40.0
+offset_right = 312.0
+offset_bottom = 128.0
+texture = ExtResource("1_1q8um")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="texts" type="HBoxContainer" parent="panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 176.0
+offset_right = -8.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="text" type="TextEdit" parent="panel/texts"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "dafasa
+"
+wrap_mode = 1
+
+[node name="tags" type="HFlowContainer" parent="panel/texts"]
+custom_minimum_size = Vector2(160, 2.08165e-12)
+layout_mode = 2
+theme = SubResource("Theme_ocomk")
+
+[node name="add_tag" type="Button" parent="panel/texts/tags"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+focus_mode = 0
+text = "+"
+
+[node name="names" type="HFlowContainer" parent="panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 464.0
+offset_bottom = 39.0
+
+[node name="id_mark" type="Label" parent="panel/names"]
+layout_mode = 2
+text = "ID:
+"
+
+[node name="id" type="Label" parent="panel/names"]
+layout_mode = 2
+
+[node name="name" type="LineEdit" parent="panel/names"]
+layout_mode = 2
+text = "11111111111111111111111111111111111111111111"
+max_length = 44
+expand_to_text_length = true
+
+[node name="release_date_lbl" type="Label" parent="panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 147.0
+offset_right = 136.0
+offset_bottom = 170.0
+text = "RELEASE_DATE"
+
+[node name="release_date" type="LineEdit" parent="panel"]
+layout_mode = 1
+offset_left = 124.0
+offset_top = 143.0
+offset_right = 224.0
+offset_bottom = 174.0
+text = "12.12.2012"
+
+[node name="close" type="Button" parent="panel"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+offset_top = -40.0
+offset_right = 32.0
+offset_bottom = -8.0
+focus_mode = 0
+text = "X"
+
+[node name="apply" type="Button" parent="panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -136.0
+offset_top = -40.0
+offset_bottom = -8.0
+grow_horizontal = 0
+text = "ACCEPT"
+
+[node name="cont" type="VBoxContainer" parent="panel"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -108.0
+offset_right = -8.0
+offset_bottom = -42.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="count" type="HBoxContainer" parent="panel/cont"]
+layout_mode = 2
+
+[node name="count_lbl" type="Label" parent="panel/cont/count"]
+layout_mode = 2
+text = "COUNT"
+
+[node name="count" type="SpinBox" parent="panel/cont/count"]
+layout_mode = 2
+size_flags_horizontal = 10
+allow_greater = true
+update_on_text_changed = true
+
+[node name="price" type="HBoxContainer" parent="panel/cont"]
+layout_mode = 2
+
+[node name="prise_txt" type="Label" parent="panel/cont/price"]
+layout_mode = 2
+text = "PRICE"
+
+[node name="price" type="SpinBox" parent="panel/cont/price"]
+layout_mode = 2
+size_flags_horizontal = 10
+step = 0.01
+allow_greater = true
+update_on_text_changed = true
+
+[node name="auths" type="HBoxContainer" parent="panel"]
+layout_mode = 0
+offset_left = 480.0
+offset_right = 712.0
+offset_bottom = 40.0
+
+[node name="auths" type="Label" parent="panel/auths"]
+layout_mode = 2
+text = "AUTHORS"
+
+[node name="anme" type="LineEdit" parent="panel/auths"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "FIND_AUTHOR"
+expand_to_text_length = true
+
+[node name="panel" type="Panel" parent="panel"]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 48.0
+offset_right = 672.0
+offset_bottom = 408.0
+
+[node name="sc_a" type="ScrollContainer" parent="panel/panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="auth_cont" type="HFlowContainer" parent="panel/panel/sc_a"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_adqra")
+theme_override_constants/h_separation = 12
+
+[node name="c" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="c"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -132.0
+offset_right = 80.0
+offset_bottom = 132.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="tags" type="HFlowContainer" parent="c/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ftag" type="LineEdit" parent="c/Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 152.0
+offset_bottom = 39.0
+placeholder_text = "FIND_TAG"
+
+[node name="tag_close" type="Button" parent="c/Panel"]
+layout_mode = 0
+offset_top = -40.0
+offset_right = 32.0
+offset_bottom = -8.0
+text = "X"
+
+[connection signal="button_down" from="panel/texts/tags/add_tag" to="." method="_on_add_tag_button_down"]
+[connection signal="text_changed" from="panel/release_date" to="." method="_on_release_date_text_changed"]
+[connection signal="button_down" from="panel/close" to="." method="_on_close_button_down"]
+[connection signal="button_down" from="panel/apply" to="." method="_on_apply_button_down"]
+[connection signal="text_changed" from="c/Panel/ftag" to="." method="_on_ftag_text_changed"]
+[connection signal="button_down" from="c/Panel/tag_close" to="." method="_on_tag_close_button_down"]

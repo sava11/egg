@@ -42,7 +42,6 @@ func check_pay():
 	else:
 		var temp=int(ye)
 		var year = int(Time.get_datetime_string_from_system(true,true).split(" ")[0].split("-")[0])
-		print(year," ",temp)
 		if year<temp or temp<0:
 			m.get_node("Panel/card_data/info/date/y").text="er"
 			correct=false

@@ -43,3 +43,83 @@ BEGIN
 		end if;
 	end if;
 END;
+
+#
+CREATE PROCEDURE game_store.update_game(game_id int, game_title varchar(256),game_image_link text, 
+game_price float, game_release_date Date, game_in_storage int, game_short_desc text)
+BEGIN
+	if (select count(title) from game_store.games where title!=game_title and id=game_id)=1 then
+		update game_store.games 
+		set games.title=game_title
+		where title!=game_title and id=game_id;
+	end if;
+	if (select count(image_link) from game_store.games where image_link!=game_image_link and id=game_id)=1 then
+		update game_store.games 
+		set games.image_link=game_image_link
+		where image_link!=game_image_link and id=game_id;
+	end if;
+	if (select count(price) from game_store.games where price!=game_price and id=game_id)=1 then
+		update game_store.games 
+		set games.price=game_price
+		where price!=game_price and id=game_id;
+	end if;
+	if (select count(release_date) from game_store.games where release_date!=game_release_date and id=game_id)=1 then
+		update game_store.games 
+		set games.release_date=game_release_date
+		where release_date!=game_release_date and id=game_id;
+	end if;
+	if (select count(in_storage) from game_store.games where in_storage!=game_in_storage and id=game_id)=1 then
+		update game_store.games 
+		set games.in_storage=game_in_storage
+		where in_storage!=game_in_storage and id=game_id;
+	end if;
+	if (select count(in_storage) from game_store.games where in_storage!=game_in_storage and id=game_id)=1 then
+		update game_store.games 
+		set games.in_storage=game_in_storage
+		where in_storage!=game_in_storage and id=game_id;
+	end if;
+	if (select count(short_desc) from game_store.games where in_storage!=game_short_desc and id=game_id)=1 then
+		update game_store.games 
+		set games.short_desc=game_short_desc
+		where in_storage!=game_short_desc and id=game_id;
+	end if;
+END;
+
+#
+CREATE function game_store.add_game(game_title varchar(256),game_image_link text, 
+game_price float, game_release_date Date, game_in_storage int, game_short_desc text, game_tag_list int)
+RETURNS INT DETERMINISTIC
+BEGIN
+	insert into game_store.games values (game_title,game_image_link,game_price,game_release_date,game_in_storage,game_short_desc,game_tag_list);
+	return (SELECT COUNT(id) FROM games);
+END;
+
+#установка тега к игре
+CREATE PROCEDURE game_store.add_tag_to_game(_game_id INT, _tag_name VARCHAR(256))
+BEGIN
+    DECLARE _tag_id INT DEFAULT 0;
+    
+    -- Проверяем, существует ли тег с указанным именем
+    IF (SELECT COUNT(id) FROM game_store.tags WHERE name = _tag_name) = 0 THEN
+        -- Если тега не существует, добавляем его
+        INSERT INTO game_store.tags(name) VALUES (_tag_name);
+    END IF;
+   	IF (SELECT count(id) FROM game_store.tags WHERE name = _tag_name)>0 then
+   		SET _tag_id = (SELECT id FROM game_store.tags WHERE name = _tag_name);
+   	END IF;
+    
+    -- Проверяем, существует ли игра с указанным id
+    IF (SELECT COUNT(id) FROM game_store.games WHERE id = _game_id) > 0 and _tag_id!=0 THEN
+        -- Проверяем, существует ли связь между игрой и тегом
+        IF (SELECT COUNT(game_id) FROM game_store.tags_connections WHERE game_id = _game_id AND tag_id = _tag_id) = 0 THEN
+            -- Если связи не существует, добавляем ее
+            INSERT INTO game_store.tags_connections(game_id, tag_id) VALUES (_game_id, _tag_id);
+        END IF;
+    END IF;
+END;
+
+#установка конкретного тега к игре
+CREATE PROCEDURE game_store.remove_tag_from_game(_game_id int, _tag_id int)
+BEGIN
+	delete from tags_connections where game_id= _game_id and tag_id=_tag_id;
+END;

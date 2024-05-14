@@ -19,6 +19,7 @@ insert into games(title,image_link, price, release_date, in_storage, short_desc)
 values
 ('rogue',"https://cdn.akamai.steamstatic.com/steam/apps/1443430/header.jpg?t=1651574702",100.00,'2020-05-20',10,"a beautiful world what wont to be destroyed"),
 ('rogue2',"",120.00,'2021-05-20',50,""),
+('rogue-9',"",120.00,'1997-11-11',50,""),
 ('rogue3',"",150.00,'2021-05-20',10,""),
 ('anagin',"",750.00,'2021-05-20',50,""),
 ('chipushila',"",120.00,'2021-05-20',50,""),

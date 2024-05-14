@@ -1,6 +1,7 @@
 extends Panel
 var data={}
 var order_item:=false
+@export_file("*.tscn") var adv_card_path
 func _ready():
 	$cont/id_game/id/id.text=data.id
 	$cont/id_game/name.text=data.name
@@ -14,7 +15,7 @@ func _ready():
 		$cont/pac/count/count.value=int(data.count)
 		$cont/pac/count/count.editable=false
 func _on_open_button_down():
-	var adv_c=preload("res://mats/game_card/adv_card.tscn").instantiate()
+	var adv_c=load(adv_card_path).instantiate()
 	adv_c.data=data
 	get_tree().current_scene.add_child(adv_c)
 
