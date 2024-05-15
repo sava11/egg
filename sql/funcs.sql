@@ -85,12 +85,13 @@ BEGIN
 	end if;
 END;
 
-#
+#add_game("UNNAMED","",336,"2024-12-20",3324,"adfda");
 CREATE function game_store.add_game(game_title varchar(256),game_image_link text, 
-game_price float, game_release_date Date, game_in_storage int, game_short_desc text, game_tag_list int)
+game_price float, game_release_date Date, game_in_storage int, game_short_desc text)
 RETURNS INT DETERMINISTIC
 BEGIN
-	insert into game_store.games values (game_title,game_image_link,game_price,game_release_date,game_in_storage,game_short_desc,game_tag_list);
+	insert into game_store.games(title,image_link, price, release_date, in_storage, short_desc) values
+	(game_title,game_image_link,game_price, game_release_date, game_in_storage, game_short_desc);
 	return (SELECT COUNT(id) FROM games);
 END;
 
@@ -122,4 +123,35 @@ END;
 CREATE PROCEDURE game_store.remove_tag_from_game(_game_id int, _tag_id int)
 BEGIN
 	delete from tags_connections where game_id= _game_id and tag_id=_tag_id;
+END;
+
+
+#установка автора к игре
+CREATE PROCEDURE game_store.add_author_to_game(_game_id INT, _author_name VARCHAR(256))
+BEGIN
+    DECLARE _author_id INT DEFAULT 0;
+    
+    -- Проверяем, существует ли тег с указанным именем
+    IF (SELECT COUNT(id) FROM game_store.authors WHERE author = _author_name) = 0 THEN
+        -- Если тега не существует, добавляем его
+        INSERT INTO game_store.authors(author) VALUES (_author_name);
+    END IF;
+   	IF (SELECT count(id) FROM game_store.authors WHERE author = _author_name)>0 then
+   		SET _author_id = (SELECT id FROM game_store.authors WHERE author = _author_name);
+   	END IF;
+    
+    -- Проверяем, существует ли игра с указанным id
+    IF (SELECT COUNT(id) FROM game_store.games WHERE id = _game_id) > 0 and _author_id!=0 THEN
+        -- Проверяем, существует ли связь между игрой и тегом
+        IF (SELECT COUNT(game_id) FROM game_store.authors_connections WHERE game_id = _game_id AND author_id = _author_id) = 0 THEN
+            -- Если связи не существует, добавляем ее
+            INSERT INTO game_store.authors_connections(game_id, author_id) VALUES (_game_id, _author_id);
+        END IF;
+    END IF;
+END;
+
+#удаление автора к игре
+CREATE PROCEDURE game_store.remove_author_from_game(_game_id int, _author_id int)
+BEGIN
+	delete from authors_connections where game_id= _game_id and author_id=_author_id;
 END;

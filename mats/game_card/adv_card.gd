@@ -11,7 +11,7 @@ func _ready():
 	$panel/prise_txt/prise.text=data.price
 	$panel/release_date/Label.text=data.release_date
 	$panel/texts/text.text=data.text
-	$panel/img.texture=load(data.image)
+	#$panel/img.texture=load(data.image)
 	$panel/Panel/op.clear()
 	$panel/Panel/op.add_item("ADD_TO_ORDER")
 	for e in get_tree().current_scene.get_uncompleted_orders():

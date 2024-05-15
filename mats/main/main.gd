@@ -52,6 +52,7 @@ func _get_orders():
 			itm.data.merge({
 			"id":str(i[0]),
 			"name":i[1],
+			"img_link":e[2],
 			"price":str(i[3]),
 			"release_date":i[4][0],
 			"count":str(i[5]),
@@ -67,11 +68,7 @@ func _get_orders():
 			itm.get_node("remove").button_down.connect(Callable(self,"delete_item").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
 			itm.get_node("cont/pac/count/count").value_changed.connect(Callable(self,"count_changed").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
 			
-			if i[2]!="":
-				if FileAccess.file_exists(chache+i[1]+"."+get_file_by_name(i[1])):
-					itm.get_node("cont/img").texture=load(chache+i[1]+"."+get_file_by_name(i[1]))
-				else:
-					get_net_image(itm.get_node("cont/img"),i[2],i[1])
+			load_image(itm.get_node("cont/img"),i[2],i[1])
 			list.get_node("sc_i/list").add_child(itm)
 		order_items_cont.add_child(list)
 		list.name=b.name
@@ -96,6 +93,7 @@ func _get_items():
 		itm.data.merge({
 			"id":str(e[0]),
 			"name":e[1],
+			"img_link":e[2],
 			"price":str(e[3]),
 			"release_date":e[4][0],
 			"count":str(e[5]),
@@ -104,17 +102,18 @@ func _get_items():
 			"order_status":false,
 			"authors":get_authors(e[0])
 			})
-		if e[2]!="":
-			if FileAccess.file_exists(chache+e[1]+"."+get_file_by_name(e[1])):
-				itm.get_node("cont/img").texture=load(chache+e[1]+"."+get_file_by_name(e[1]))
-			else:
-				get_net_image(itm.get_node("cont/img"),e[2],e[1])
+		load_image(itm.get_node("cont/img"),e[2],e[1])
 		itm.adv_card_path="res://mats/game_card/adv_card.tscn"
 		items.add_child(itm)
-
+func load_image(itm:TextureRect,link:String,iname:String):
+	if link!="":
+		if FileAccess.file_exists(chache+iname+"."+get_file_by_name(iname)):
+			itm.texture=load(chache+iname+"."+get_file_by_name(iname))
+		else:
+			get_net_image(itm,link,iname)
 func _get_editable_items():
 	for e in editable_items.get_children():
-		if e.text=="":
+		if e is Panel:
 			e.queue_free()
 	var data:Array=sqlc.querry("SELECT * FROM games;")
 	var i=0
@@ -125,6 +124,7 @@ func _get_editable_items():
 		itm.data.merge({
 			"id":str(e[0]),
 			"name":e[1],
+			"img_link":e[2],
 			"price":str(e[3]),
 			"release_date":e[4][0],
 			"count":str(e[5]),
@@ -133,11 +133,7 @@ func _get_editable_items():
 			"order_status":false,
 			"authors":get_authors(e[0])
 			})
-		if e[2]!="":
-			if FileAccess.file_exists(chache+e[1]+"."+get_file_by_name(e[1])):
-				itm.get_node("cont/img").texture=load(chache+e[1]+"."+get_file_by_name(e[1]))
-			else:
-				get_net_image(itm.get_node("cont/img"),e[2],e[1])
+		load_image(itm.get_node("cont/img"),e[2],e[1]+"[id]:"+itm.data.id)
 		itm.adv_card_path="res://mats/game_card/edit_adv_card.tscn"
 		editable_items.add_child(itm)
 
@@ -145,31 +141,36 @@ func get_net_image(s:TextureRect,img:String,filename:String):
 	var http_request = FileDownloader.new()
 	http_request.name=str(randi())
 	add_child(http_request)
-	http_request.connect("downloads_finished",Callable(self,"end").bind(s,http_request.get_path()))
+	http_request.connect("downloads_finished",Callable(self,"end").bind(s,str(http_request.get_path()),filename))
 	http_request.file_urls=[img]
 	http_request.custom_names={0:filename}
 	http_request.save_path=chache
 	http_request.start_download()
 
-func end(s:TextureRect,a:NodePath):
-	var type=get_file_by_name(s.get_parent().get_node("id_game/name").text)
-	var f=FileAccess.open(chache+s.get_parent().get_node("id_game/name").text+"."+type,FileAccess.READ)
-	var b=f.get_buffer(f.get_length())
-	f.close()
-	var img = Image.new()
-	img.call("load_"+type+"_from_buffer",b)
-	var r = ImageTexture.new()
-	r.set_image(img)
-	s.texture=r
+func end(s:TextureRect,a:String,filename:String):
+	#print(get_node(a).get_stats())
+	
+	var ext=""
+	if get_node(a).get_stats().file_name.split(".").size()>1:
+		ext=get_node(a).get_stats().file_name.split(".")[1]
+	if ["bmp","jpg","png","svg","webp"].any(Callable(func(x):return x==ext)):
+		var f=FileAccess.open(chache+filename+"."+ext,FileAccess.READ)
+		var b=f.get_buffer(f.get_length())
+		f.close()
+		var img = Image.new()
+		#bmp,jpg,png,svg,webp
+		img.call("load_"+ext+"_from_buffer",b)
+		var r = ImageTexture.new()
+		r.set_image(img)
+		s.texture=r
 	get_node(a).queue_free()
 
 func get_file_by_name(word:String):
-	var type=""
 	for e in DirAccess.get_files_at(chache):
-		if e.contains(word):
-			type=e.split(".")[1]
-	return type
-
+		if e.split(".")[0]==word:
+			var ws=e.split(".")
+			return ws[len(ws)-1]
+	return ""
 func get_tags(game_id:int):
 	var exit_list=[]
 	for item in sqlc.querry("select name from tags where id in (select tag_id from tags_connections tc where tc.game_id="+str(game_id)+");"):
@@ -262,7 +263,10 @@ func _process(delta):
 		_get_items()
 		_get_editable_items()
 		temp=0
-
+func update_all():
+	_get_orders()
+	_get_items()
+	_get_editable_items()
 func _on_add_order_button():
 	var order_id=sqlc.querry("select add_order()")
 	_get_orders()
@@ -369,7 +373,20 @@ func _on_show_tags_button_down():
 
 
 func _on_add_game_button_down():
-	pass # Replace with function body.
+	var adv_c=load("res://mats/game_card/edit_adv_card.tscn").instantiate()
+	adv_c.data={
+			"id":"0",
+			"name":tr("UNNAMED"),
+			"img_link":"",
+			"price":"0",
+			"release_date":"",
+			"count":"0",
+			"text":"",
+			"tags":[],
+			"order_status":false,
+			"authors":[]
+			}
+	add_child(adv_c)
 
 
 func _on_authors_button_button_down():

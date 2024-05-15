@@ -50,4 +50,5 @@ select * from tags;
 select * from tags_connections;
 
 #tags
-select * from tags where id in (select tag_id from tags_connections tc where tc.game_id=1);
+select name from tags where id in (select tag_id from tags_connections tc where tc.game_id=1);
+

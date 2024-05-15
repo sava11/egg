@@ -17,6 +17,7 @@ func _ready():
 func _on_open_button_down():
 	var adv_c=load(adv_card_path).instantiate()
 	adv_c.data=data
+	adv_c.get_node("panel/img").texture=$cont/img.texture.duplicate()
 	get_tree().current_scene.add_child(adv_c)
 
 func _on_count_value_changed(value):

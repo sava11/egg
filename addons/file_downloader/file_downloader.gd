@@ -217,7 +217,8 @@ func _download_next_file() -> void:
 	if _current_url_index < file_urls.size():
 		_current_url  = file_urls[_current_url_index]
 		if custom_names.get(0)!=null:
-			var string=_current_url.get_file().split(".")[1]
+			var cfu=_current_url.get_file().split(".")
+			var string=cfu[cfu.size()-1]
 			var regex = RegEx.new()
 			regex.compile("[a-zA-Z]+")
 			var type=""

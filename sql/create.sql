@@ -22,7 +22,7 @@ create table  game_store.games(
 	title varchar(256) not null,
 	image_link text,
 	#image_type CHAR(10),
-	price float(5,2),
+	price float(5,2) not null,
 	release_date Date not null,
 	in_storage int not null,
 	short_desc text,
