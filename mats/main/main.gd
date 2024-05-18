@@ -68,7 +68,7 @@ func _get_orders():
 			itm.get_node("remove").button_down.connect(Callable(self,"delete_item").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
 			itm.get_node("cont/pac/count/count").value_changed.connect(Callable(self,"count_changed").bind(str(e[0]),itm.data.id,itm.data.count_in_order))
 			
-			load_image(itm.get_node("cont/img"),i[2],i[1]+"[id]:"+itm.data.id)
+			load_image(itm.get_node("cont/img"),i[2],itm.data.id)
 			list.get_node("sc_i/list").add_child(itm)
 		order_items_cont.add_child(list)
 		list.name=b.name
@@ -102,7 +102,7 @@ func _get_items():
 			"order_status":false,
 			"authors":get_authors(e[0])
 			})
-		load_image(itm.get_node("cont/img"),e[2],e[1]+"[id]:"+itm.data.id)
+		load_image(itm.get_node("cont/img"),e[2],itm.data.id)
 		itm.adv_card_path="res://mats/game_card/adv_card.tscn"
 		items.add_child(itm)
 func load_image(itm:TextureRect,link:String,iname:String):
@@ -133,7 +133,7 @@ func _get_editable_items():
 			"order_status":false,
 			"authors":get_authors(e[0])
 			})
-		load_image(itm.get_node("cont/img"),e[2],e[1]+"[id]:"+itm.data.id)
+		load_image(itm.get_node("cont/img"),e[2],itm.data.id)
 		itm.adv_card_path="res://mats/game_card/edit_adv_card.tscn"
 		editable_items.add_child(itm)
 
