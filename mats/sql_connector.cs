@@ -5,9 +5,8 @@ using Godot.Collections;
 using System.Linq;
 public partial class sql_connector : Node
 {
-    MySqlConnection conn = 
-                new MySqlConnection
-                ("Server=127.0.0.1;User ID=root;Password=Saveliyano!1;Database=game_store");
+    MySqlConnection conn =new MySqlConnection
+        ($"Server=127.0.0.1;User ID=root;Password=Saveliyano!1;Database=game_store");
     public Godot.Collections.Array querry(string s)
     {
         Godot.Collections.Array out_=new Godot.Collections.Array();

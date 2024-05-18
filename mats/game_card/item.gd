@@ -3,8 +3,8 @@ var data={}
 var order_item:=false
 @export_file("*.tscn") var adv_card_path
 func _ready():
-	$cont/id_game/id/id.text=data.id
-	$cont/id_game/name.text=data.name
+	$cont/id.text=data.id
+	$cont/name.text=data.name
 	$cont/pac/price/prise.text=data.price
 	data.merge({"image":$cont/img.texture.resource_path})
 	$cont/pac/count/count.editable=!data.order_status

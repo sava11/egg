@@ -9,7 +9,7 @@ offset_right = 256.0
 offset_bottom = 232.0
 script = ExtResource("1_qhuih")
 
-[node name="cont" type="VFlowContainer" parent="."]
+[node name="cont" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,22 +21,11 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="id_game" type="VBoxContainer" parent="cont"]
-layout_mode = 2
-
-[node name="id" type="HBoxContainer" parent="cont/id_game"]
-layout_mode = 2
-
-[node name="id_mark" type="Label" parent="cont/id_game/id"]
-layout_mode = 2
-text = "ID:
-"
-
-[node name="id" type="Label" parent="cont/id_game/id"]
+[node name="id" type="Label" parent="cont"]
 layout_mode = 2
 text = "12321444"
 
-[node name="name" type="Label" parent="cont/id_game"]
+[node name="name" type="Label" parent="cont"]
 layout_mode = 2
 text = "game_name________"
 
@@ -87,7 +76,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
