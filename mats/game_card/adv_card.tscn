@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://b1or5j0jfk4j0"]
 
-[ext_resource type="Texture2D" uid="uid://ctc1jyrxih16c" path="res://icon.svg" id="1_jxs7y"]
+[ext_resource type="Texture2D" uid="uid://ckr8hm1tsl6bv" path="res://icon.svg" id="1_jxs7y"]
 [ext_resource type="Script" path="res://mats/game_card/adv_card.gd" id="1_lqse0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dns4x"]
@@ -90,34 +90,36 @@ grow_vertical = 2
 
 [node name="img" type="TextureRect" parent="panel"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 40.0
-offset_right = 312.0
-offset_bottom = 128.0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 304.0
+offset_bottom = 160.0
 texture = ExtResource("1_jxs7y")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="texts" type="VBoxContainer" parent="panel"]
+[node name="texts" type="HBoxContainer" parent="panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = 160.0
+offset_top = 184.0
 offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="tags" type="HFlowContainer" parent="panel/texts"]
-layout_mode = 2
-
 [node name="text" type="RichTextLabel" parent="panel/texts"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "dafasa
 "
+
+[node name="tags" type="HFlowContainer" parent="panel/texts"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
 
 [node name="Label" type="Label" parent="panel"]
 layout_mode = 0
@@ -139,17 +141,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 12
 
-[node name="names" type="HFlowContainer" parent="panel"]
+[node name="names" type="VBoxContainer" parent="panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 312.0
 offset_bottom = 32.0
-
-[node name="id_mark" type="Label" parent="panel/names"]
-layout_mode = 2
-text = "ID:
-"
 
 [node name="id" type="Label" parent="panel/names"]
 layout_mode = 2
@@ -161,9 +158,9 @@ text = "game_name"
 [node name="release_date" type="Label" parent="panel"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 136.0
+offset_top = 160.0
 offset_right = 136.0
-offset_bottom = 168.0
+offset_bottom = 192.0
 text = "RELEASE_DATE"
 
 [node name="Label" type="Label" parent="panel/release_date"]
@@ -176,9 +173,9 @@ text = "12.12.2012"
 [node name="prise_txt" type="Label" parent="panel"]
 layout_mode = 0
 offset_left = 320.0
-offset_top = 113.0
+offset_top = 136.0
 offset_right = 432.0
-offset_bottom = 136.0
+offset_bottom = 159.0
 text = "PRICE"
 
 [node name="prise" type="Label" parent="panel/prise_txt"]
@@ -198,9 +195,9 @@ text = "165"
 [node name="count_lbl" type="Label" parent="panel"]
 layout_mode = 0
 offset_left = 320.0
-offset_top = 137.0
+offset_top = 160.0
 offset_right = 424.0
-offset_bottom = 160.0
+offset_bottom = 183.0
 text = "COUNT"
 
 [node name="count" type="Label" parent="panel/count_lbl"]

@@ -3,7 +3,7 @@ ORDERS,orders,заказы
 ADD_ORDER,add order, добавить заказ
 ITEMS,games,игры
 FILTERS,filters,фильтры
-ADD_ITEM,add game, добавить игру
+ADD_ITEM,edit,редактировать
 PRICE,price,цена
 COUNT,count,количество
 RELEASE_DATE,release date,дата выхода
@@ -22,3 +22,4 @@ MM,MM,ММ
 YYYY,YYYY,ГГГГ
 UNCORRECT_CARD,incorrect card number,неверный номер карты
 ADD_TO_ORDER,add to order,добавить в заказ
+ITEM_NAME,name,имя
